@@ -1,8 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"flag"
+	"fmt"
+	"os"
+)
 
 func main() {
-	println("Hello world")
-	fmt.Println("Hello from Go")
+	name := flag.String("name", "world", "specify the name you want to say hi")
+	flag.Parse()
+	fmt.Println("os args is:", os.Args)
+	fmt.Println("input parameter is:", *name)
+	fmt.Printf("Hello %s from Go\n", *name)
 }
