@@ -1,6 +1,8 @@
 package main
 
 func main() {
+	var a *int
+	*a += 1
 	DoOperation(1, increase)
 	DoOperation(1, decrease)
 }

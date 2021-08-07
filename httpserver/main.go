@@ -6,7 +6,8 @@ import (
 	"io"
 	"log"
 	"net/http"
-	"net/http/pprof"
+
+	_ "net/http/pprof"
 
 	"github.com/golang/glog"
 )
@@ -14,15 +15,16 @@ import (
 func main() {
 	flag.Set("v", "4")
 	glog.V(2).Info("Starting http server...")
-
-	mux := http.NewServeMux()
-	mux.HandleFunc("/", rootHandler)
-	mux.HandleFunc("/healthz", healthz)
-	mux.HandleFunc("/debug/pprof/", pprof.Index)
-	mux.HandleFunc("/debug/pprof/profile", pprof.Profile)
-	mux.HandleFunc("/debug/pprof/symbol", pprof.Symbol)
-	mux.HandleFunc("/debug/pprof/trace", pprof.Trace)
-	err := http.ListenAndServe(":80", mux)
+	http.HandleFunc("/", rootHandler)
+	err := http.ListenAndServe(":80", nil)
+	// mux := http.NewServeMux()
+	// mux.HandleFunc("/", rootHandler)
+	// mux.HandleFunc("/healthz", healthz)
+	// mux.HandleFunc("/debug/pprof/", pprof.Index)
+	// mux.HandleFunc("/debug/pprof/profile", pprof.Profile)
+	// mux.HandleFunc("/debug/pprof/symbol", pprof.Symbol)
+	// mux.HandleFunc("/debug/pprof/trace", pprof.Trace)
+	// err := http.ListenAndServe(":80", mux)
 	if err != nil {
 		log.Fatal(err)
 	}
