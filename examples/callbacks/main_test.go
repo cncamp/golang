@@ -1,8 +1,16 @@
 package main
 
-import "testing"
+import (
+	"testing"
 
+	"github.com/stretchr/testify/assert"
+)
+
+func add(a, b int) int {
+	return a + b
+}
 func TestIncrease(t *testing.T) {
 	t.Log("Start testing")
-	increase(1, 2)
+	result := add(1, 2)
+	assert.Equal(t, result, 3)
 }
