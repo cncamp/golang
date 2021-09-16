@@ -16,6 +16,8 @@ func main() {
 	flag.Set("v", "4")
 	glog.V(2).Info("Starting http server...")
 	http.HandleFunc("/", rootHandler)
+	c, python, java := true, false, "no!"
+	fmt.Println(c, python, java)
 	err := http.ListenAndServe(":80", nil)
 	// mux := http.NewServeMux()
 	// mux.HandleFunc("/", rootHandler)
@@ -28,6 +30,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 }
 
 func healthz(w http.ResponseWriter, r *http.Request) {
