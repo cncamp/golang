@@ -15,4 +15,16 @@ func main() {
 	fmt.Println(str)
 	fmt.Println(pointer)
 	fmt.Println(anotherString)
+	para := ParameterStruct{Name: "aaa"}
+	fmt.Println(para)
+	changeParameter(&para, "bbb")
+	fmt.Println(para)
+}
+
+type ParameterStruct struct {
+	Name string
+}
+
+func changeParameter(para *ParameterStruct, value string) {
+	para.Name = value
 }
