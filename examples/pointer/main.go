@@ -19,6 +19,8 @@ func main() {
 	fmt.Println(para)
 	changeParameter(&para, "bbb")
 	fmt.Println(para)
+	cannotChangeParameter(para, "ccc")
+	fmt.Println(para)
 }
 
 type ParameterStruct struct {
@@ -26,5 +28,9 @@ type ParameterStruct struct {
 }
 
 func changeParameter(para *ParameterStruct, value string) {
+	para.Name = value
+}
+
+func cannotChangeParameter(para ParameterStruct, value string) {
 	para.Name = value
 }
