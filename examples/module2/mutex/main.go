@@ -7,17 +7,34 @@ import (
 )
 
 func main() {
-	loopFunc()
-	time.Sleep(time.Second)
+	go rLock()
+	go wLock()
+	go lock()
+	time.Sleep(5 * time.Second)
 }
 
-func loopFunc() {
+func lock() {
 	lock := sync.Mutex{}
 	for i := 0; i < 3; i++ {
-		// go func(i int) {
 		lock.Lock()
 		defer lock.Unlock()
-		fmt.Println("loopFunc:", i)
-		// }(i)
+		fmt.Println("lock:", i)
+	}
+}
+
+func rLock() {
+	lock := sync.RWMutex{}
+	for i := 0; i < 3; i++ {
+		lock.RLock()
+		defer lock.RUnlock()
+		fmt.Println("rLock:", i)
+	}
+}
+func wLock() {
+	lock := sync.RWMutex{}
+	for i := 0; i < 3; i++ {
+		lock.Lock()
+		defer lock.Unlock()
+		fmt.Println("wLock:", i)
 	}
 }
