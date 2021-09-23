@@ -30,6 +30,7 @@ func rLock() {
 		fmt.Println("rLock:", i)
 	}
 }
+
 func wLock() {
 	lock := sync.RWMutex{}
 	for i := 0; i < 3; i++ {
