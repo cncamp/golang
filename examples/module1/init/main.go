@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 
-	_ "github.com/cncamp/golang/examples/init/a"
-	_ "github.com/cncamp/golang/examples/init/b"
+	_ "github.com/cncamp/golang/examples/module1/init/a"
+	_ "github.com/cncamp/golang/examples/module1/init/b"
 )
 
 func init() {
