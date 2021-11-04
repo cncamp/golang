@@ -1,11 +1,16 @@
 package main
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"io"
 	"log"
 	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	_ "net/http/pprof"
 
@@ -15,22 +20,33 @@ import (
 func main() {
 	flag.Set("v", "4")
 	glog.V(2).Info("Starting http server...")
-	http.HandleFunc("/", rootHandler)
-	c, python, java := true, false, "no!"
-	fmt.Println(c, python, java)
-	err := http.ListenAndServe(":80", nil)
-	// mux := http.NewServeMux()
-	// mux.HandleFunc("/", rootHandler)
-	// mux.HandleFunc("/healthz", healthz)
-	// mux.HandleFunc("/debug/pprof/", pprof.Index)
-	// mux.HandleFunc("/debug/pprof/profile", pprof.Profile)
-	// mux.HandleFunc("/debug/pprof/symbol", pprof.Symbol)
-	// mux.HandleFunc("/debug/pprof/trace", pprof.Trace)
-	// err := http.ListenAndServe(":80", mux)
-	if err != nil {
-		log.Fatal(err)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", rootHandler)
+	srv := http.Server{
+		Addr:    ":80",
+		Handler: mux,
 	}
+	done := make(chan os.Signal, 1)
+	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatalf("listen: %s\n", err)
+		}
+	}()
+	log.Print("Server Started")
+	<-done
+	log.Print("Server Stopped")
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer func() {
+		// extra handling here
+		cancel()
+	}()
+
+	if err := srv.Shutdown(ctx); err != nil {
+		log.Fatalf("Server Shutdown Failed:%+v", err)
+	}
+	log.Print("Server Exited Properly")
 }
 
 func healthz(w http.ResponseWriter, r *http.Request) {
