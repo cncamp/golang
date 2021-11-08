@@ -53,6 +53,7 @@ func healthz(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, "ok\n")
 }
 
+
 func rootHandler(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("entering root handler")
 	user := r.URL.Query().Get("user")
