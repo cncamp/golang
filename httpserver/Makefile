@@ -1,4 +1,4 @@
-export tag=v1.0-metrics
+export tag=v1.0-nonroot
 root:
 	export ROOT=github.com/cncamp/golang
 
