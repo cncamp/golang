@@ -8,18 +8,18 @@ import (
 
 type Queue struct {
 	queue []string
-	cond *sync.Cond
+	cond  *sync.Cond
 }
 
 func main() {
 	q := Queue{
 		queue: []string{},
-		cond: sync.NewCond(&sync.Mutex{}),
+		cond:  sync.NewCond(&sync.Mutex{}),
 	}
 	go func() {
 		for {
 			q.Enqueue("a")
-			time.Sleep(time.Second*2)
+			time.Sleep(time.Second * 2)
 		}
 	}()
 	for {
@@ -28,7 +28,7 @@ func main() {
 	}
 }
 
-func (q *Queue)Enqueue(item string)  {
+func (q *Queue) Enqueue(item string) {
 	q.cond.L.Lock()
 	defer q.cond.L.Unlock()
 	q.queue = append(q.queue, item)
@@ -39,7 +39,7 @@ func (q *Queue)Enqueue(item string)  {
 func (q *Queue) Dequeue() string {
 	q.cond.L.Lock()
 	defer q.cond.L.Unlock()
-	if len(q.queue) == 0 {
+	for len(q.queue) == 0 {
 		fmt.Println("no data available, wait")
 		q.cond.Wait()
 	}
