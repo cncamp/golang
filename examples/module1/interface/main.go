@@ -32,7 +32,7 @@ func (c *Car) getName() string {
 }
 
 func main() {
-	interfaces := []IF{}
+	var interfaces []IF
 	h := new(Human)
 	h.firstName = "first"
 	h.lastName = "last"
