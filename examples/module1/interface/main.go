@@ -6,6 +6,20 @@ type IF interface {
 	getName() string
 }
 
+type Fruit interface {
+	Describe() string
+}
+
+type Apple struct {
+	Color string
+	Shape string
+	Taste string
+}
+
+func (a Apple) Describe() string {
+	return fmt.Sprintf("Apple: the color is %s, the shape is %s, the taste is %s", a.Color, a.Shape, a.Taste)
+}
+
 type Human struct {
 	firstName, lastName string
 }
@@ -32,7 +46,7 @@ func (c *Car) getName() string {
 }
 
 func main() {
-	interfaces := []IF{}
+	var interfaces []IF
 	h := new(Human)
 	h.firstName = "first"
 	h.lastName = "last"
@@ -48,4 +62,11 @@ func main() {
 	p.vendor = "testVendor"
 	p.model = "testModel"
 	fmt.Println(p.getName())
+
+	apple := new(Apple)
+	apple.Color = "Red"
+	apple.Shape = "Round"
+	apple.Taste = "Sweet"
+	description := apple.Describe()
+	fmt.Print(description)
 }
