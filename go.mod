@@ -1,4 +1,4 @@
-module github.com/cncamp/golang
+module junwense/jike-yunyuansheng-cncamp-golang
 
 go 1.16
 
