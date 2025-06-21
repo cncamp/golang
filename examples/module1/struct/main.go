@@ -23,7 +23,7 @@ func main() {
 	println(tag)
 	tb := TypeB{P2: "p2", TypeA: TypeA{P1: "p1"}}
 	//可以直接访问 TypeA.P1
-	println(tb.P1)
+	println(tb.P2)
 }
 
 type TypeA struct {
